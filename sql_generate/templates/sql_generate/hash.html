@@ -1,0 +1,73 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" type="text/css" href="{% static 'sql_generate/styles/style.css' %}">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,700,0,200" />
+    <title>Geojson to GeoHashes</title>
+</head>
+
+<body>
+    <nav class="navigation">
+        <div>
+            <a href="{% url 'hash' %}"><button class="nav-btn" id="hash">Geo Hashes</button></a>
+            <a href="{% url 'sql' %}"><button class="nav-btn" id="query">Query Generator</button></a>
+        </div>
+    </nav>
+    <div class="main">
+        <div class="main-1">
+
+            <h1>Welcome </h1>
+            <form action="{% url 'hash' %}" class="form" method="post" enctype="multipart/form-data">
+                <div class="form-grp">
+                    <label>Upload Your File</label>
+                    {% csrf_token %}
+                    {{ form.file }}
+                    {% if feedback %}
+                    <p>{{ feedback }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="form-grp1">
+                    <button class="btn-submit" type="submit"> <span class="button-text">Upload File</span> <span
+                            class="material-symbols-outlined">
+                            upload
+                        </span></button>
+                </div>
+            </form>
+        </div>
+        <div class="query-div">
+            <p class="query-heading">Geo Hashes</p>
+            <textarea type="text" name="Query" placeholder="Geo Hashes..." class="query" style="width: 700px; height: 557px;">
+                {% for name, value in processed_data %}
+                    {{ name }}: {{ value }}
+                {% endfor %}</textarea>
+            <div class="form-grp1">
+                <form id="downloadForm" action="{% url 'down_csv' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="processed_data" value="{{ processed_data }}">
+                    <button class="btn-submit" type="submit">
+                        <span class="button-text">Download CSV File</span>
+                        <span class="material-symbols-outlined">download</span>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

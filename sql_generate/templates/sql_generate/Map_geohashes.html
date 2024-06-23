@@ -2,83 +2,93 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Interactive Geohashes</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="{% static 'sql_generate/styles/draw.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <!-- <script src="node_modules/leaflet-toolbar/dist/leaflet.toolbar.js"></script>
 <script src="node_modules/leaflet-draw-toolbar/dist/leaflet.draw-toolbar.js"></script> -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<!-- <link rel="stylesheet" href="node_modules/leaflet-toolbar/dist/leaflet.toolbar.css"/>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- <link rel="stylesheet" href="node_modules/leaflet-toolbar/dist/leaflet.toolbar.css"/>
 <link rel="stylesheet" href="node_modules/leaflet-draw-toolbar/dist/leaflet.draw-toolbar.css"/> -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.draw@1.0.4/dist/leaflet.draw.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.draw@1.0.4/dist/leaflet.draw.css" />
     <style>
-      
-    
+
+
     </style>
 </head>
+
 <body>
-  
+
     <div class="draw">
- 
+
         <div class="map-div">
-    <div id="map" class="map"></div>
-</div>
-    <div class="geohash">
- <button class="menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">&#9776;</button>
+            <div id="map" class="map"></div>
+        </div>
+        <div class="geohash">
+            <button class="menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
+                aria-controls="offcanvasWithBothOptions">&#9776;</button>
 
-    <div class="offcanvas offcanvas-start drawer" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menu</h5>
-        <button type="button" class="close" data-bs-dismiss="offcanvas">&#10006;</button>
-       
-      </div>
-      <div class="offcanvas-body drawer-div">
-        <button class="nav-btn" id="hash">Hash Generator</button>
-        <button class="nav-btn" id="co">Co-ordinates Generator</button>
-        <button class="nav-btn" id="query">Query Generator</button>
-        <button class="nav-btn" id="mark">Map Marker</button>
-      </div>
-    </div>   
-                <script>
-                    document.querySelector('#hash').addEventListener('click', (e)=>{
-            location.assign("{% url 'hash' %}")
-        })
-        document.querySelector('#co').addEventListener('click', (e)=>{
-            location.assign("{% url 'coordinates' %}")
-        })
-        document.querySelector('#query').addEventListener('click', (e)=>{
-            location.assign("{% url 'sql_generation' %}")
-        })
-        document.querySelector('#mark').addEventListener('click', (e)=>{
-            location.assign("{% url 'map_marker' %}")
-        })
-                </script>
-        <div class="geohash-heading">Geohashes</div>
-        <div class="geo-div">
-    <div id="selected-geohashes" class="selected-geohashes" ></div>
-    <button class="btn-submit" type="submit"> Generate All Geohashes
-</button>
-</div>
-<textarea class="query" placeholder="Your Geohashes...." ></textarea>
-</div>
-</div>
+            <div class="offcanvas offcanvas-start drawer" data-bs-scroll="true" tabindex="-1"
+                id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menu</h5>
+                    <button type="button" class="close" data-bs-dismiss="offcanvas">&#10006;</button>
 
-   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-   
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
-<!-- <script     src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script> -->
+                </div>
+                <div class="offcanvas-body drawer-div">
+                    <button class="nav-btn" id="hash">Hash Generator</button>
+                    <button class="nav-btn" id="co">Co-ordinates Generator</button>
+                    <button class="nav-btn" id="query">Query Generator</button>
+                    <button class="nav-btn" id="mark">Map Marker</button>
+                </div>
+            </div>
+            <script>
+                document.querySelector('#hash').addEventListener('click', (e) => {
+                    location.assign("{% url 'hash' %}")
+                })
+                document.querySelector('#co').addEventListener('click', (e) => {
+                    location.assign("{% url 'coordinates' %}")
+                })
+                document.querySelector('#query').addEventListener('click', (e) => {
+                    location.assign("{% url 'sql_generation' %}")
+                })
+                document.querySelector('#mark').addEventListener('click', (e) => {
+                    location.assign("{% url 'map_marker' %}")
+                })
+            </script>
+            <div class="geohash-heading">Geohashes</div>
+            <div class="geo-div">
+                <div id="selected-geohashes" class="selected-geohashes"></div>
+                <button class="btn-submit" id="clear" type="submit">Clear All Geohashes
+                </button>
+            </div>
+            <!-- <textarea class="query" placeholder="Your Geohashes...."></textarea> -->
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+    <!-- <script     src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script> -->
     <script type="module">
-           import Geohash from 'https://cdn.jsdelivr.net/npm/latlon-geohash@2.0.0'
+        import Geohash from 'https://cdn.jsdelivr.net/npm/latlon-geohash@2.0.0'
         var map = L.map('map').setView([51.505, -0.09], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -92,19 +102,19 @@
         // Initialize the draw control and pass it the FeatureGroup of editable layers
 
         var drawControl = new L.Control.Draw({
-    draw: {
-        polyline: true, // Disable polylines
-        polygon: true, // Enable polygons
-        circle: true, // Disable circles
-        rectangle: true, // Enable rectangles
-        marker: true // Disable markers
-    },
-    edit: {
-        featureGroup: drawnItems
-    }
-});
-map.addControl(drawControl);
-   
+            draw: {
+                polyline: true, // Disable polylines
+                polygon: true, // Enable polygons
+                circle: true, // Disable circles
+                rectangle: true, // Enable rectangles
+                marker: true // Disable markers
+            },
+            edit: {
+                featureGroup: drawnItems
+            }
+        });
+        map.addControl(drawControl);
+
 
         // Function to convert coordinates to geohash (placeholder)
         function coordinatesToGeohash(lat, lng) {
@@ -115,116 +125,122 @@ map.addControl(drawControl);
         // Function to handle the creation of new shapes
 
         map.on(L.Draw.Event.CREATED, function (e) {
-    var type = e.layerType,
-        layer = e.layer;
+            var type = e.layerType,
+                layer = e.layer;
 
-    drawnItems.addLayer(layer);
+            drawnItems.addLayer(layer);
 
-    if (type === 'polygon') {
-        var vertices = layer.getLatLngs()[0];
-        var geohashesSet = new Set(); // Create a Set to store unique geohashes
+            if (type === 'polygon') {
+                var vertices = layer.getLatLngs()[0];
+                var geohashesSet = new Set(); // Create a Set to store unique geohashes
 
-        vertices.forEach(function(vertex) {
-            var geohash = coordinatesToGeohash(vertex.lat, vertex.lng);
-            geohashesSet.add(geohash); // Add geohash to the Set
-        });
+                vertices.forEach(function (vertex) {
+                    var geohash = coordinatesToGeohash(vertex.lat, vertex.lng);
+                    geohashesSet.add(geohash); // Add geohash to the Set
+                });
 
-        var geohashes = Array.from(geohashesSet); // Convert Set to Array
-        var geohashList = document.getElementById('selected-geohashes');
-        geohashList.innerHTML = ''; // Clear previous geohashes
-
-        geohashes.forEach(function(geohash) {
-            var geohashItem = document.createElement('div');
-            geohashItem.textContent = geohash;
-            geohashItem.classList.add('selected');
-            geohashList.appendChild(geohashItem);
-        });
-    }
-else if (type === 'polyline') {
-        var points = layer.getLatLngs();
-        var geohashesSet = new Set(); // Create a Set to store unique geohashes
-
-        points.forEach(function(point) {
-            var geohash = coordinatesToGeohash(point.lat, point.lng);
-            geohashesSet.add(geohash); // Add geohash to the Set
-        });
-
-        var geohashes = Array.from(geohashesSet); // Convert Set to Array
-        var geohashList = document.getElementById('selected-geohashes');
-        geohashList.innerHTML = ''; // Clear previous geohashes
-
-        geohashes.forEach(function(geohash) {
-            var geohashItem = document.createElement('div');
-            geohashItem.textContent = geohash;
-            geohashItem.classList.add('selected');
-            geohashList.appendChild(geohashItem);
-        });
-    }
-
-    // Handle square creation
-    else if (type === 'rectangle') {
-        var bounds = layer.getBounds();
-        var geohashes = [
-            coordinatesToGeohash(bounds.getNorthWest().lat, bounds.getNorthWest().lng),
-            coordinatesToGeohash(bounds.getNorthEast().lat, bounds.getNorthEast().lng),
-            coordinatesToGeohash(bounds.getSouthEast().lat, bounds.getSouthEast().lng),
-            coordinatesToGeohash(bounds.getSouthWest().lat, bounds.getSouthWest().lng)
-        ];
-        var geohashList = document.getElementById('selected-geohashes');
+                var geohashes = Array.from(geohashesSet); // Convert Set to Array
+                var geohashList = document.getElementById('selected-geohashes');
                 geohashList.innerHTML = ''; // Clear previous geohashes
-                geohashes.forEach(function(geohash) {
+
+                geohashes.forEach(function (geohash) {
                     var geohashItem = document.createElement('div');
                     geohashItem.textContent = geohash;
                     geohashItem.classList.add('selected');
                     geohashList.appendChild(geohashItem);
                 });
-    }
-    // Handle circle creation
-    else if (type === 'circle') {
-    var center = layer.getLatLng();
-    var radius = layer.getRadius();
-    var geohash = coordinatesToGeohash(center.lat, center.lng);
-    // Display the geohash for the circle's center
-    var geohashList = document.getElementById('selected-geohashes');
-    geohashList.innerHTML = ''; // Clear previous geohashes
-    var geohashItem = document.createElement('div');
-    geohashItem.textContent = geohash;
-    geohashItem.classList.add('selected');
-    geohashList.appendChild(geohashItem);
-}
+            }
+            else if (type === 'polyline') {
+                var points = layer.getLatLngs();
+                var geohashesSet = new Set(); // Create a Set to store unique geohashes
 
-    // Handle marker creation
-    if (type === 'marker') {
-        var position = layer.getLatLng();
-        var geohash = coordinatesToGeohash(position.lat, position.lng);
-        // Display the geohash for the marker
-        var geohashList = document.getElementById('selected-geohashes');
-        geohashList.innerHTML = ''; // Clear previous geohashes
-        var geohashItem = document.createElement('div');
-        geohashItem.textContent = geohash;
-        geohashItem.classList.add('selected');
-        geohashList.appendChild(geohashItem);
-    }
- 
-});
+                points.forEach(function (point) {
+                    var geohash = coordinatesToGeohash(point.lat, point.lng);
+                    geohashesSet.add(geohash); // Add geohash to the Set
+                });
 
+                var geohashes = Array.from(geohashesSet); // Convert Set to Array
+                var geohashList = document.getElementById('selected-geohashes');
+                geohashList.innerHTML = ''; // Clear previous geohashes
 
-// map.on(L.Draw.Event.CREATED, function (e) {
-//     var type = e.layerType,
-//         layer = e.layer;
+                geohashes.forEach(function (geohash) {
+                    var geohashItem = document.createElement('div');
+                    geohashItem.textContent = geohash;
+                    geohashItem.classList.add('selected');
+                    geohashList.appendChild(geohashItem);
+                });
+            }
 
-//     if (type === 'marker') {
-//         var position = layer.getLatLng();
-//         var geohash = coordinatesToGeohash(position.lat, position.lng);
-//         // Display the geohash for the marker
-//         var geohashList = document.getElementById('selected-geohashes');
-//         geohashList.innerHTML = ''; // Clear previous geohashes
-//         var geohashItem = document.createElement('div');
-//         geohashItem.textContent = geohash;
-//         geohashItem.classList.add('selected');
-//         geohashList.appendChild(geohashItem);
-//     }
-// });
+            // Handle square creation
+            else if (type === 'rectangle') {
+                var bounds = layer.getBounds();
+                var geohashes = [
+                    coordinatesToGeohash(bounds.getNorthWest().lat, bounds.getNorthWest().lng),
+                    coordinatesToGeohash(bounds.getNorthEast().lat, bounds.getNorthEast().lng),
+                    coordinatesToGeohash(bounds.getSouthEast().lat, bounds.getSouthEast().lng),
+                    coordinatesToGeohash(bounds.getSouthWest().lat, bounds.getSouthWest().lng)
+                ];
+                var geohashList = document.getElementById('selected-geohashes');
+                geohashList.innerHTML = ''; // Clear previous geohashes
+                geohashes.forEach(function (geohash) {
+                    var geohashItem = document.createElement('div');
+                    geohashItem.textContent = geohash;
+                    geohashItem.classList.add('selected');
+                    geohashList.appendChild(geohashItem);
+                });
+            }
+            // Handle circle creation
+            else if (type === 'circle') {
+                var center = layer.getLatLng();
+                var radius = layer.getRadius();
+                var geohash = coordinatesToGeohash(center.lat, center.lng);
+                // Display the geohash for the circle's center
+                var geohashList = document.getElementById('selected-geohashes');
+                geohashList.innerHTML = ''; // Clear previous geohashes
+                var geohashItem = document.createElement('div');
+                geohashItem.textContent = geohash;
+                geohashItem.classList.add('selected');
+                geohashList.appendChild(geohashItem);
+            }
+
+            // Handle marker creation
+            if (type === 'marker') {
+                var position = layer.getLatLng();
+                var geohash = coordinatesToGeohash(position.lat, position.lng);
+                // Display the geohash for the marker
+                var geohashList = document.getElementById('selected-geohashes');
+                geohashList.innerHTML = ''; // Clear previous geohashes
+                var geohashItem = document.createElement('div');
+                geohashItem.textContent = geohash;
+                geohashItem.classList.add('selected');
+                geohashList.appendChild(geohashItem);
+            }
+
+        });
+
+        document.querySelector('#clear').addEventListener('click', (e) => {
+            var geohashList = document.getElementById('selected-geohashes');
+            geohashList.innerHTML = '';
+            drawnItems.clearLayers()
+        })
+
+        // map.on(L.Draw.Event.CREATED, function (e) {
+        //     var type = e.layerType,
+        //         layer = e.layer;
+
+        //     if (type === 'marker') {
+        //         var position = layer.getLatLng();
+        //         var geohash = coordinatesToGeohash(position.lat, position.lng);
+        //         // Display the geohash for the marker
+        //         var geohashList = document.getElementById('selected-geohashes');
+        //         geohashList.innerHTML = ''; // Clear previous geohashes
+        //         var geohashItem = document.createElement('div');
+        //         geohashItem.textContent = geohash;
+        //         geohashItem.classList.add('selected');
+        //         geohashList.appendChild(geohashItem);
+        //     }
+        // });
     </script>
 </body>
+
 </html>

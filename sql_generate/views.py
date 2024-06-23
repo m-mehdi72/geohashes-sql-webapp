@@ -4,7 +4,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import QueryForm, UploadFileForm
 from .sql_script import generate_query
-from .geohash import generate_csv_response, process_file
+from .geohash import generate_hash_csv_response, process_file
+from .lat_long_script import generate_coordinates_csv_response ,extract_coordinates
 
 # Create your views here.
 def sql(request):
@@ -49,11 +50,11 @@ def hash(request):
         form = UploadFileForm()
     return render(request, 'sql_generate/geojson_to_geohashes.html', {'form': form})
 
-def download_csv(request):
+def download_hash_csv(request):
     if request.method == 'POST':
         processed_data = request.POST.get('processed_data', '')
         if processed_data:
-            response = generate_csv_response(processed_data)
+            response = generate_hash_csv_response(processed_data)
             if response:
                 # Set the appropriate content type for CSV files
                 response['Content-Type'] = 'text/csv'
@@ -68,8 +69,33 @@ def download_csv(request):
         return HttpResponse("Invalid request method. This endpoint only accepts POST requests.")
 
 def coordinates_generator(request):
-    
-    return render(request, 'sql_generate/coordinates_generator.html')
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = request.FILES['file']
+            file_content = uploaded_file.read()
+            # Save file content to a temporary file
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                temp_file.write(file_content)
+                temp_file_path = temp_file.name
+
+            coordinates, messages = extract_coordinates(temp_file_path)
+            os.unlink(temp_file_path)
+            if coordinates:
+                request.session['coordinates'] = coordinates
+            return render(request, 'sql_generate/coordinates_generator.html', {
+                'processed_data': coordinates,
+                'messages' : messages, 
+                'feedback' : "Your file has been Uploaded",
+                'form':form
+                })
+    else:
+        form = UploadFileForm()
+    return render(request, 'sql_generate/coordinates_generator.html', {'form': form})
+
+def download_coordinates_csv(request):
+    coordinates = request.session.get('coordinates', [])
+    return generate_coordinates_csv_response(coordinates)
     
 def map_geohashes(request):
     return render(request, 'sql_generate/Map_geohashes.html')

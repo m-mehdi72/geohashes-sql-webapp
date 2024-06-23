@@ -90,13 +90,23 @@
 
 
             <div class="query-div">
-                <p class="query-heading">Your Longitude and Latitude</p>
-                <input type="text" name="Query" placeholder="Longitudes ansd Latitudes..." class="query">
+                <p class="query-heading">Your Latitudes and Longitudes</p>
+                <textarea type="text" name="Query" placeholder="Latitudes and Longitudes..." class="query" style="width: 700px; height: 557px;">
+                    {% for name, lat, lon in processed_data %}
+                        {{ name }}:&nbsp;&nbsp;&nbsp;&nbsp;{{ lat }}&nbsp;&nbsp;&nbsp;&nbsp;{{ lon }}
+                    {% endfor %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </textarea>
                 <div class="form-grp1">
-                    <button class="btn-submit" type="submit"> <span class="button-text">Download CSV File</span> <span
-                            class="material-symbols-outlined">
-                            download
-                        </span></button>
+                    <form id="downloadForm" action="{% url 'down_csv' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn-submit" type="submit"> <span class="button-text">Download CSV File</span>
+                            <span class="material-symbols-outlined">
+                                download
+                            </span></button>
+                    </form>
                 </div>
             </div>
         </div>

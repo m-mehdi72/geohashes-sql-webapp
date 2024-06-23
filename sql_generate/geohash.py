@@ -97,7 +97,7 @@ def remove_duplicates(input_list):
             seen.add((key, value))
     return unique_items
 
-def generate_csv_response(locations):
+def generate_hash_csv_response(locations):
     locations = ast.literal_eval(locations)
     output = StringIO()
     writer = csv.writer(output)

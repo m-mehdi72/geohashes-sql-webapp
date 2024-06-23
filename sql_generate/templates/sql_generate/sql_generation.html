@@ -49,13 +49,13 @@
     location.assign("{% url 'hash' %}")
 })
 document.querySelector('#co').addEventListener('click', (e)=>{
-    location.assign('lat.html')
+    location.assign("{% url 'coordinates' %}")
 })
 document.querySelector('#map').addEventListener('click', (e)=>{
-    location.assign('draw.html')
+    location.assign("{% url 'map_geohashes' %}")
 })
 document.querySelector('#mark').addEventListener('click', (e)=>{
-    location.assign('map.html')
+    location.assign("{% url 'map_marker' %}")
 })
         </script>
 

@@ -158,7 +158,6 @@ label{
 .main{
     display: flex;
     flex-direction: row;
-   
     margin-top: 2rem;
     flex-wrap: wrap;
 }

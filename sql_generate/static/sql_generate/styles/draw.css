@@ -173,6 +173,8 @@ padding: 15px 25px;
    font-family: 'Poppins', serif;
 }
 
+
+
 @media (max-width: 700px){
     .draw{
         flex-direction: column-reverse;

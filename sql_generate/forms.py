@@ -8,3 +8,5 @@ class QueryForm(forms.Form):
 class UploadFileForm(forms.Form):
     file = forms.FileField(required= True)
     
+class CoordinatesForm(forms.Form):
+    pass

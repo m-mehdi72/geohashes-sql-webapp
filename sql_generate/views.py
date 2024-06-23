@@ -66,3 +66,13 @@ def download_csv(request):
             return HttpResponse("Processed data not found in the request. Please try again.")
     else:
         return HttpResponse("Invalid request method. This endpoint only accepts POST requests.")
+
+def coordinates_generator(request):
+    
+    return render(request, 'sql_generate/coordinates_generator.html')
+    
+def map_geohashes(request):
+    return render(request, 'sql_generate/Map_geohashes.html')
+
+def map_marker(request):
+    return render(request, 'sql_generate/Map_marker.html')

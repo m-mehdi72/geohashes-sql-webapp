@@ -17,12 +17,12 @@ def sql(request):
             entries = values.split('\n')  
             entries = [entry.strip() for entry in entries if entry.strip()]  
             query = generate_query(table_name, column_name, entries)
-            return render(request, 'sql_generate/sql.html', {'form': form, 'query': query})
+            return render(request, 'sql_generate/sql_generation.html', {'form': form, 'query': query})
         else:
             print("Form is invalid:", form.errors)
     else:
         form = QueryForm()
-    return render(request, 'sql_generate/sql.html', {'form': form})
+    return render(request, 'sql_generate/sql_generation.html', {'form': form})
 
 def hash(request):
     if request.method == 'POST':
@@ -40,14 +40,14 @@ def hash(request):
             formatted_data = ''
             # for name, value in processed_data:
             #     formatted_data += f"{name}: {value}\n"
-            return render(request, 'sql_generate/hash.html', {
+            return render(request, 'sql_generate/geojson_to_geohashes.html', {
                 'processed_data': processed_data,
                 'feedback' : "Your file has been Uploaded",
                 'form':form
                 })
     else:
         form = UploadFileForm()
-    return render(request, 'sql_generate/hash.html', {'form': form})
+    return render(request, 'sql_generate/geojson_to_geohashes.html', {'form': form})
 
 def download_csv(request):
     if request.method == 'POST':

@@ -3,9 +3,35 @@
     background: #11B1A5;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     padding: 10px 20px;
     margin: 0;
+}
+label{
+    font-size: 1.5rem;
+}
+.nav-btn:hover{
+    transform: scale(1.1);
+    color: #0e9990;
+}
+.menu-btn{
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 3rem;
+}
+
+.drawer{
+  color: #fff;
+    background: #181A20;
+}
+
+.drawer-div{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 body{
@@ -18,14 +44,27 @@ body{
 }
 h1{
     color: #ffff;
+    margin-bottom: 2rem;
+}
+.close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: right;
+ background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 3rem;   
 }
 .nav-btn{
     padding: 5px 10px;
-    font-size: 18px;
+    font-size: 1.8rem;
+    font-family: "Poppins", sans-serif;
     font-weight: 600 ;
     background: transparent;
     border: none;
     color: #ffff;
+    transition: all .3s ease-out;
     cursor: pointer;
 }
 input{
@@ -36,13 +75,15 @@ input{
     color: #ffff;
     font-family: "Poppins", sans-serif;
     font-weight: 600;
+    transition: all .5s ease-out;
     outline: none!important;
    width: 50%;
-    font-size: 16px;
+    font-size: 1.4rem;
 }
 
 input:focus,
-input:active{
+input:active,
+input:hover{
     border: 1px solid #11B1A5 ;
    
 
@@ -53,31 +94,31 @@ input::placeholder{
     font-family: "Poppins", sans-serif;
 }
 
-
-textarea{
+textarea {
     background: #1F222A;
     padding: 20px 25px;
     border-radius: 30px;
-        border: none;
+    border: none;
     color: #ffff;
     font-family: "Poppins", sans-serif;
     font-weight: 600;
-    outline: none!important;
-   width: 50%;
+    outline: none !important;
+    width: 50%;
     font-size: 16px;
 }
 
 textarea:focus,
-input:active{
-    border: 1px solid #11B1A5 ;
-   
+input:active {
+    border: 1px solid #11B1A5;
+
 
 }
 
 
-textarea::placeholder{
+textarea::placeholder {
     font-family: "Poppins", sans-serif;
 }
+
 .main{
     display: flex;
     justify-content: space-between;
@@ -108,9 +149,17 @@ label{
     flex-direction: column;
     /* width: 40%; */
 }
+.content{
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
 .main{
     display: flex;
     flex-direction: row;
+   
+    margin-top: 2rem;
     flex-wrap: wrap;
 }
 .main-1{
@@ -143,7 +192,7 @@ label{
     position: relative;
     z-index: 1;
     padding: 16px 70px 16px 35px;
-    font-size: 15px;
+    font-size: 1.5rem;
     font-weight: 600;
     color: #fff;
     background-color: transparent;
@@ -165,10 +214,9 @@ label{
     display: flex!important;
     justify-content: center;
     align-items: center;
-    font-size: 19px;
+    font-size: 1.9rem;
     color: #fff;
     border-radius: 50%;
-    font-size: 15px;
     background-color: #0e9990 ;
 }
 .btn-submit:hover{
@@ -207,7 +255,6 @@ label{
 .query{
     display: flex;
     flex-wrap: wrap;
-  
     margin: 10px;
     height: 100px;
     width: auto;
@@ -215,7 +262,7 @@ label{
 .query-heading{
   margin-left: 20px;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 2rem;
 }
 
 
@@ -223,6 +270,10 @@ label{
 @media (max-width: 700px){
  .main{
     flex-direction: column;
+ }
+ .content{
+    flex-direction: column;
+
  }
  .main-1{
     flex: 0 0 auto;
@@ -232,4 +283,37 @@ label{
     flex: 0 0 auto;
     width: 100%;
 }
+
 }
+h5{
+    font-size: 1.8rem;
+}
+html{
+    font-size: 62.5%;
+}
+@media only screen and (max-width:950px){ 
+    /* //900px */
+    html{
+       
+        font-size: 50%;
+    } 
+}
+
+
+@media only screen and(max-width:1200px){ 
+     /* //1200px */
+     html{
+       
+        font-size: 56.25%;
+    } 
+}
+
+
+@media only screen and (min-width:112.5em){   
+     /* //1800px */
+     html{
+       
+        font-size: 75%;
+    } 
+}
+

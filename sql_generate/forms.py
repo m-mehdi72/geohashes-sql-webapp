@@ -8,5 +8,6 @@ class QueryForm(forms.Form):
 class UploadFileForm(forms.Form):
     file = forms.FileField(required= True)
     
-class CoordinatesForm(forms.Form):
-    pass
+class PolygonForm(forms.Form):
+    table_name = forms.CharField(label='Table Name', max_length=100)
+    file = forms.FileField(required= True)

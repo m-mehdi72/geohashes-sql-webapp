@@ -6,7 +6,8 @@ urlpatterns = [
     path('hash/', views.hash, name = "hash"),
     path('coordinates/', views.coordinates_generator, name='coordinates'),
     path('map_geohashes/', views.map_geohashes, name = 'map_geohashes'),
-    path('map_marker', views.map_marker, name = 'map_marker'),
+    path('map_marker/', views.map_marker, name = 'map_marker'),
+    path('polygon_query/', views.polygon_query, name = 'polygon_query'),
     path('hash/download/', views.download_hash_csv, name = 'down_csv'),
     path('coordinates/download/', views.download_coordinates_csv, name = 'down_co_csv')
 ]

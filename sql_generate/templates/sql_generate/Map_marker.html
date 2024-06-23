@@ -45,6 +45,7 @@
       <div class="offcanvas-body drawer-div">
         <button class="nav-btn" id="hash">Hash Generator</button>
         <button class="nav-btn" id="co">Co-ordinates Generator</button>
+        <button class="nav-btn" id="pol">Polygon Query Generator</button>
         <button class="nav-btn" id="map1">Map Geohashes</button>
         <button class="nav-btn" id="query">Query Generator</button>
       </div>
@@ -55,6 +56,9 @@
         })
         document.querySelector('#co').addEventListener('click', (e)=>{
             location.assign("{% url 'coordinates' %}")
+        })
+        document.querySelector('#pol').addEventListener('click', (e)=>{
+            location.assign("{% url 'polygon_query' %}")
         })
         document.querySelector('#map1').addEventListener('click', (e)=>{
         location.assign("{% url 'map_geohashes' %}")

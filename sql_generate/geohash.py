@@ -7,11 +7,16 @@ import pygeohash as pgh
 from io import StringIO
 from django.http import HttpResponse
 
+def strip_newline(s):
+    return s.replace('\n', '')
+
 def using_closest_point(file, geohash_precision):
     gdf = gpd.read_file(file)
     
     if 'name' not in gdf.columns:
         gdf['name'] = 'Unknown'
+    else:
+        gdf['name'] = gdf['name'].apply(strip_newline)
     
     gdf['closest_point'] = gdf.geometry.apply(lambda geom: geom.representative_point())
     gdf['geohash'] = gdf.closest_point.apply(lambda point: pgh.encode(point.y, point.x, precision=geohash_precision))
@@ -23,6 +28,8 @@ def using_centroid(file, geohash_precision):
     
     if 'name' not in gdf.columns:
         gdf['name'] = 'Unknown'
+    else:
+        gdf['name'] = gdf['name'].apply(strip_newline)
     
     gdf['geohash'] = gdf.geometry.apply(lambda geom: pgh.encode(geom.centroid.y, geom.centroid.x, precision=geohash_precision))
     
@@ -39,7 +46,11 @@ def convert_geojson_to_geohashes(geojson_file, precision):
         geometry_type = feature['geometry']['type']
         properties = feature.get('properties', {})
         location_name = properties.get('name', '')  
-        
+        if location_name is None:
+            location_name = ''
+        else:
+            location_name = location_name.rstrip('\n')
+
         if geometry_type == 'Point':
             coords = feature['geometry']['coordinates']
             geohash_value = geohash.encode(coords[1], coords[0], precision=precision)
@@ -101,6 +112,7 @@ def generate_hash_csv_response(locations):
     locations = ast.literal_eval(locations)
     output = StringIO()
     writer = csv.writer(output)
+    writer.writerow(['Name', 'Geohashes'])
     for name, value in locations:
         writer.writerow([name, value])  # Stripping whitespace from the name
     

@@ -8,7 +8,7 @@ def generate_coordinates_csv_response(coordinates):
     
     writer = csv.writer(response)
     
-    writer.writerow(['Location Name', 'Latitude', 'Longitude'])
+    writer.writerow(['Name', 'Latitude', 'Longitude'])
     for location_name, lat, lon in coordinates:
         writer.writerow([location_name, lat, lon])
 

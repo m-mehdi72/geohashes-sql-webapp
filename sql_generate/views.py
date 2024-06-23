@@ -2,10 +2,11 @@ import os
 import tempfile
 from django.shortcuts import render
 from django.http import HttpResponse
-from .forms import QueryForm, UploadFileForm
+from .forms import QueryForm, UploadFileForm, PolygonForm
 from .sql_script import generate_query
 from .geohash import generate_hash_csv_response, process_file
 from .lat_long_script import generate_coordinates_csv_response ,extract_coordinates
+from .polygon_query import polygon_query_script
 
 # Create your views here.
 def sql(request):
@@ -102,3 +103,34 @@ def map_geohashes(request):
 
 def map_marker(request):
     return render(request, 'sql_generate/Map_marker.html')
+
+def polygon_query(request):
+    if request.method == 'POST':
+        form = PolygonForm(request.POST, request.FILES)
+        if form.is_valid():
+            table_name = form.cleaned_data['table_name']
+            uploaded_file = request.FILES['file']
+            
+            # Save file content to a temporary file
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                temp_file.write(uploaded_file.read())
+                temp_file_path = temp_file.name
+
+            # Generate SQL queries
+            sql_query = polygon_query_script(table_name, temp_file_path)
+            
+            # Remove the temporary file
+            os.unlink(temp_file_path)
+
+            # Render the response with the generated SQL queries
+            return render(request, 'sql_generate/polygon_query_generator.html', {
+                'sql_query': sql_query,
+                'feedback': "SQL queries generated successfully.",
+                'form': form
+            })
+        else:
+            print(form.errors)
+    else:
+        form = PolygonForm()
+    
+    return render(request, 'sql_generate/polygon_query_generator.html', {'form': form})

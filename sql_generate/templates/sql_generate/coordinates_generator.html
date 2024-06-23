@@ -38,6 +38,7 @@
             <div class="offcanvas-body drawer-div">
                 <button class="nav-btn" id="hash">Hash Generator</button>
                 <button class="nav-btn" id="query">Query Generator</button>
+                <button class="nav-btn" id="pol">Polygon Query Generator</button>
                 <button class="nav-btn" id="map">Map Geohashes</button>
                 <button class="nav-btn" id="mark">Map Marker</button>
             </div>
@@ -50,6 +51,9 @@
             document.querySelector('#query').addEventListener('click', (e) => {
                 location.assign("{% url 'sql_generation' %}")
             })
+            document.querySelector('#pol').addEventListener('click', (e)=>{
+            location.assign("{% url 'polygon_query' %}")
+        })
             document.querySelector('#map').addEventListener('click', (e) => {
                 location.assign("{% url 'map_geohashes' %}")
             })
@@ -100,7 +104,7 @@
                     {% endfor %}
                 </textarea>
                 <div class="form-grp1">
-                    <form id="downloadForm" action="{% url 'down_csv' %}" method="post">
+                    <form id="downloadForm" action="{% url 'down_co_csv' %}" method="post">
                         {% csrf_token %}
                         <button class="btn-submit" type="submit"> <span class="button-text">Download CSV File</span>
                             <span class="material-symbols-outlined">
